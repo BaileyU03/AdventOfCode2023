@@ -2,11 +2,10 @@ def main(is_part2):
     total = 0
     with open("./files/day01.txt", "r") as f:
         for line in f:
-            new_line = line
             if is_part2:
                 numbers = replace_word_numbers(line)
             else:
-                numbers = [int(char) for char in new_line if char.isdigit()]
+                numbers = [int(char) for char in line if char.isdigit()]
             total += numbers[0] * 10 + numbers[-1]
     return total
 
