@@ -41,7 +41,6 @@ def replace_word_numbers(line):
                 word = line[pointer:pointer + number_length]
                 if word in numbers.keys():
                     newLine += numbers.get(word)
-                    pointer += number_length - 1
                     continue
         pointer += 1
     return newLine
