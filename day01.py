@@ -11,8 +11,8 @@ def main(is_part2):
 
 
 def replace_word_numbers(line):
-    numbersDict = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
-                   "six": 6, "seven": 7, "eight": 8, "nine": 9}
+    numbers_dict = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+                    "six": 6, "seven": 7, "eight": 8, "nine": 9}
     numbers = []
     for i in range(len(line)):
         if line[i].isdigit():
@@ -21,8 +21,8 @@ def replace_word_numbers(line):
         for word_length in range(3, 6):
             if i < len(line) - word_length:
                 word = line[i:i + word_length]
-                if word in numbersDict.keys():
-                    numbers.append(numbersDict.get(word))
+                if word in numbers_dict.keys():
+                    numbers.append(numbers_dict.get(word))
                     break
     return numbers
 
