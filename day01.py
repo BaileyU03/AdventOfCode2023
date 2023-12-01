@@ -1,9 +1,9 @@
-def main(part2):
+def main(is_part2):
     total = 0
     with open("./files/day01.txt", "r") as f:
         for line in f:
             newLine = line
-            if part2:
+            if is_part2:
                 newLine = replace_word_numbers(line)
             numbers = []
             for char in newLine:
