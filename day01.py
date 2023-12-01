@@ -1,12 +1,12 @@
-def main(part2):
+def main(is_part2):
     total = 0
     with open("./files/day01.txt", "r") as f:
         for line in f:
-            newLine = line
-            if part2:
-                newLine = replace_word_numbers(line)
+            new_line = line
+            if is_part2:
+                new_line = replace_word_numbers(line)
             numbers = []
-            for char in newLine:
+            for char in new_line:
                 if char.isdigit():
                     numbers.append(int(char))
             total += numbers[0] * 10 + numbers[-1]
@@ -16,18 +16,18 @@ def main(part2):
 def replace_word_numbers(line):
     numbers = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
                "six": "6", "seven": "7", "eight": "8", "nine": "9"}
-    newLine = ""
+    new_line = ""
     for i in range(len(line)):
         if line[i].isdigit():
-            newLine += line[i]
+            new_line += line[i]
             continue
-        for wordLength in range(3, 6):
-            if i < len(line) - wordLength:
-                word = line[i:i+wordLength]
+        for word_length in range(3, 6):
+            if i < len(line) - word_length:
+                word = line[i:i + word_length]
                 if word in numbers.keys():
-                    newLine += numbers.get(word)
+                    new_line += numbers.get(word)
                     break
-    return newLine
+    return new_line
 
 
 print(main(False))
