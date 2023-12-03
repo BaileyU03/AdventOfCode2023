@@ -1,4 +1,4 @@
-def main():
+def part01():
     grid = []
     with open("./files/day03.txt", "r") as f:
         for line in f:
@@ -69,4 +69,71 @@ def get_part_number(line, start_pointer, end_pointer):
     return total
 
 
-print(main())
+def part02():
+    grid = []
+    with open("./files/day03.txt", "r") as f:
+        for line in f:
+            grid.append(list(line.replace("\n", "")))
+
+    total = 0
+    for y in range(len(grid)):
+        for x in range(len(grid[y])):
+            if grid[y][x] == "*":
+                adjacency = get_adjacency(grid, y, x)
+                gears = [adjacency[x] for x in adjacency.keys() if adjacency[x] is not None]
+                if len(gears) == 2:
+                    total += gears[0] * gears[1]
+    return total
+
+
+def get_adjacency(grid, y, x):
+    adjacency = {
+        "u": None,
+        "d": None,
+        "l": None,
+        "r": None,
+        "ul": None,
+        "ur": None,
+        "dl": None,
+        "dr": None
+    }
+    if y > 0:
+        adjacency["u"] = get_part_number_one_point(grid, y - 1, x)
+    if y < len(grid):
+        adjacency["d"] = get_part_number_one_point(grid, y + 1, x)
+    if x > 0:
+        adjacency["l"] = get_part_number_one_point(grid, y, x - 1)
+    if x < len(grid[y]):
+        adjacency["r"] = get_part_number_one_point(grid, y, x + 1)
+    if adjacency["u"] is None and y > 0:
+        if x > 0:
+            adjacency["ul"] = get_part_number_one_point(grid, y - 1, x - 1)
+        if x < len(grid[y]):
+            adjacency["ur"] = get_part_number_one_point(grid, y - 1, x + 1)
+    if adjacency["d"] is None and y < len(grid):
+        if x > 0:
+            adjacency["dl"] = get_part_number_one_point(grid, y + 1, x - 1)
+        if x < len(grid[y]):
+            adjacency["dr"] = get_part_number_one_point(grid, y + 1, x + 1)
+    return adjacency
+
+
+def get_part_number_one_point(grid, y, x):
+    if not grid[y][x].isdigit():
+        return None
+    start_pointer = end_pointer = x
+    while end_pointer < len(grid[y]) - 1:
+        if grid[y][end_pointer + 1].isdigit():
+            end_pointer += 1
+        else:
+            break
+    while start_pointer > 0:
+        if grid[y][start_pointer - 1].isdigit():
+            start_pointer -= 1
+        else:
+            break
+    return get_part_number(grid[y], start_pointer, end_pointer)
+
+
+print(part01())
+print(part02())
