@@ -1,33 +1,24 @@
-def part01():
+def part01(cards):
     total = 0
-    with open("./files/day04.txt", "r") as f:
-        for line in f:
-            winning, have = process_card(line)
-            points = 0
-            for number in winning:
-                if number in have:
-                    points = points * 2 if points else 1
-            total += points
+    for line in cards:
+        wins = get_winning_count(line)
+        total += 2 ** (wins - 1) if wins else 0
     return total
 
 
-def part02():
-    cards = []
-    card_count = []
-    with open("./files/day04.txt", "r") as f:
-        for line in f:
-            cards.append(list(process_card(line)))
-            card_count.append(1)
-    card_pointer = 0
-    while card_pointer < len(cards):
-        card = cards[card_pointer]
-        win_count = get_winning_count(card[0], card[1])
+def part02(cards):
+    card_count = [1 for _ in cards]
+    for card_pointer, card in enumerate(cards):
+        win_count = get_winning_count(card)
         if win_count:
             for i in range(win_count):
                 card_count[card_pointer + i + 1] += card_count[card_pointer]
-        card_pointer += 1
     return sum(card_count)
 
+
+def get_winning_count(card):
+    winning, have = process_card(card)
+    return sum([1 for number in winning if number in have])
 
 
 def process_card(card):
@@ -36,13 +27,12 @@ def process_card(card):
     return winning, have
 
 
-def get_winning_count(winning, have):
-    total = 0
-    for number in winning:
-        if number in have:
-            total += 1
-    return total
+def main():
+    cards = []
+    with open("./files/day04.txt", "r") as f:
+        for line in f:
+            cards.append(line)
+    return part01(cards), part02(cards)
 
 
-print(part01())
-print(part02())
+print(main())
