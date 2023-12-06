@@ -1,17 +1,21 @@
 import math
 
 
-def main():
+def main(is_part2):
     with open("./files/day06.txt", "r") as f:
         # Input file has been manipulated to be:
         # TIME0 TIME1 TIME2 TIME3
         # DIST0 DIST1 DIST2 DIST3
-        times = list(map(int, f.readline().split()))
-        dists = list(map(int, f.readline().split()))
+        if is_part2:
+            times = [int(f.readline().replace(" ", ""))]
+            dists = [int(f.readline().replace(" ", ""))]
+        else:
+            times = list(map(int, f.readline().split()))
+            dists = list(map(int, f.readline().split()))
     total = 1
     for i in range(len(times)):
-        min, max = quad_equation(times[i], dists[i])
-        total *= max - min + 1
+        mini, maxi = quad_equation(times[i], dists[i])
+        total *= maxi - mini + 1
     return total
 
 
@@ -22,4 +26,6 @@ def quad_equation(time, dist):
     maxi = plus - 1 if plus == int(plus) else math.floor(plus)
     return mini, maxi
 
-print(main())
+
+print(main(False))
+print(main(True))
