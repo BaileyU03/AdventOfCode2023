@@ -15,7 +15,7 @@ def main(is_part2):
     total = 1
     for i in range(len(times)):
         mini, maxi = quad_equation(times[i], dists[i])
-        total *= maxi - mini + 1
+        total *= maxi - mini
     return total
 
 
@@ -23,7 +23,7 @@ def quad_equation(time, dist):
     plus = (time + pow(pow(time, 2) - 4 * dist, 0.5)) / 2
     minus = (time - pow(pow(time, 2) - 4 * dist, 0.5)) / 2
     mini = minus + 1 if minus == int(minus) else math.ceil(minus)
-    maxi = plus - 1 if plus == int(plus) else math.floor(plus)
+    maxi = plus if plus == int(plus) else math.ceil(plus)
     return mini, maxi
 
 
