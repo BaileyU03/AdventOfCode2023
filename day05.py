@@ -85,8 +85,8 @@ def part02():
                     updated[i][1] = cat_map[0] + (up_seed[1] - cat_map[1])
                     break
         seeds = list(updated)
-    print(seeds)
     return min([seed for pair in seeds for seed in pair])
 
 
+print(part01())
 print(part02())
