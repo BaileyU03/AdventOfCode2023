@@ -8,24 +8,48 @@ def main():
                 images.append(image)
                 image = []
             else:
-                image.append(stripped_line)
+                image.append(list(stripped_line))
         images.append(image)
-    total = 0
-    for image in images:
+    total1 = 0
+    total2 = 0
+    for x, image in enumerate(images):
         found = False
         for h_pointer in range(1, len(image)):
             if is_mirror_here(image, h_pointer):
-                total += 100 * h_pointer
+                total1 += 100 * h_pointer
                 found = True
+                original_line = ["h", h_pointer]
                 break
-        if found:
-            continue
-        t_image = list(zip(*image))
-        for h_pointer in range(1, len(t_image)):
-            if is_mirror_here(t_image, h_pointer):
-                total += h_pointer
+        if not found:
+            t_image = list(zip(*image))
+            for h_pointer in range(1, len(t_image)):
+                if is_mirror_here(t_image, h_pointer):
+                    total1 += h_pointer
+                    original_line = ["v", h_pointer]
+                    break
+        found = False
+        for i in range(len(image)):
+            for j in range(len(image[0])):
+                new_image = [x[:] for x in image]
+                new_image[i][j] = "#" if image[i][j] == "." else "."
+                for h_pointer in range(1, len(new_image)):
+                    if is_mirror_here(new_image, h_pointer) and not (original_line[0] == "h" and original_line[1] == h_pointer):
+                        total2 += 100 * h_pointer
+                        found = True
+                        break
+                if found:
+                    break
+                t_image = list(zip(*new_image))
+                for h_pointer in range(1, len(t_image)):
+                    if is_mirror_here(t_image, h_pointer) and not (original_line[0] == "v" and original_line[1] == h_pointer):
+                        total2 += h_pointer
+                        found = True
+                        break
+                if found:
+                    break
+            if found:
                 break
-    return total
+    return total1, total2
 
 
 def is_mirror_here(image, h_pointer):
