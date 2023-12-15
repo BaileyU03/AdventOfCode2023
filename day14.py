@@ -6,16 +6,10 @@ def main():
     history = []
     for x in range(1000000000):
         for y in range(4):
-            new_image = [["." if char == "O" else char for char in line] for line in image]
-            for i, line in enumerate(image):
-                for j, char in enumerate(line):
-                    if char == "O":
-                        current_line = i
-                        while new_image[current_line - 1][j] == "." and current_line - 1 >= 0:
-                            current_line -= 1
-                        new_image[current_line][j] = "O"
+            new_image = slide(image)
             if x == 0 and y == 0:
-                part1 = get_total(new_image)
+                part1 = get_total([x[:] for x in new_image])
+            # Rotate clockwise
             image = list(zip(*new_image[::-1]))
         if image in history:
             cycle = history[history.index(image):]
@@ -33,8 +27,19 @@ def get_total(image):
     for line in image:
         total += multiplier * len([char for char in line if char == "O"])
         multiplier += 1
-    image.reverse()
     return total
+
+
+def slide(image):
+    new_image = [["." if char == "O" else char for char in line] for line in image]
+    for i, line in enumerate(image):
+        for j, char in enumerate(line):
+            if char == "O":
+                current_line = i
+                while new_image[current_line - 1][j] == "." and current_line - 1 >= 0:
+                    current_line -= 1
+                new_image[current_line][j] = "O"
+    return new_image
 
 
 print(main())
