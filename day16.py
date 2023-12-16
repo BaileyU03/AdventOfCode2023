@@ -4,13 +4,22 @@ def main():
         for line in f:
             mirror_map.append(line.replace("\n", ""))
     light_map = [[[] for _ in line] for line in mirror_map]
-    light_map = get_light_travel(mirror_map, light_map, 0, -1, ">")
-    total = 0
-    for r in light_map:
-        for c in r:
-            if c:
-                total += 1
-    return total
+    p1light_map = get_light_travel(mirror_map, light_map, 0, -1, ">")
+    p1total = get_total(p1light_map)
+    p2best = 0
+    for i in range(len(light_map)):
+        light_map = [[[] for _ in line] for line in mirror_map]
+        left = get_total(get_light_travel(mirror_map, light_map, i, -1, ">"))
+        light_map = [[[] for _ in line] for line in mirror_map]
+        right = get_total(get_light_travel(mirror_map, light_map, i, len(light_map[0]), "<"))
+        p2best = max(left, right) if max(left, right) > p2best else p2best
+    for i in range(len(light_map[0])):
+        light_map = [[[] for _ in line] for line in mirror_map]
+        top = get_total(get_light_travel(mirror_map, light_map, -1, i, "v"))
+        light_map = [[[] for _ in line] for line in mirror_map]
+        bottom = get_total(get_light_travel(mirror_map, light_map, len(light_map), i, "^"))
+        p2best = max(top, bottom) if max(top, bottom) > p2best else p2best
+    return p1total, p2best
 
 
 def get_light_travel(mirror_map, light_map, row, col, direction):
@@ -74,6 +83,15 @@ def combine_light_maps(lm1, lm2):
             row.append(list(set(lm1[r][c] + lm2[r][c])))
         m.append(row)
     return m
+
+
+def get_total(light_map):
+    t = 0
+    for r in light_map:
+        for c in r:
+            if c:
+                t += 1
+    return t
 
 
 print(main())
