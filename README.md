@@ -1,6 +1,8 @@
 # Advent of Code 2023
 ## Completed in Python
 
+| Day    | stars |
+|--------|----|
 | Day 1  | ** |
 | Day 2  | ** |
 | Day 3  | ** |
