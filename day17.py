@@ -9,17 +9,18 @@ class Node:
 
     def __lt__(self, other):
         if self.dist == -1 and other.dist != -1:
-            return self.dist > other.dist
+            return False
         if self.dist != -1 and other.dist == -1:
-            return self.dist > other.dist
+            return True
         return self.dist < other.dist
 
 
 def main():
     queue = []
-    height = width = 12
     with open("./files/day17.txt", "r") as f:
         for y, line in enumerate(f):
+            height = y + 1
+            width = len(line)
             for x, n in enumerate(line):
                 if n == "\n":
                     continue
@@ -29,7 +30,6 @@ def main():
                         if y == 0 and x == 0 and direction * multiplier == "e":
                             node.dist = 0
                         queue.append(node)
-    final_nodes = [node for node in queue if node.x == width - 1 and node.y == height - 1]
     while queue:
         u = min(*queue)
         queue.remove(u)
@@ -86,10 +86,8 @@ def main():
                     forward_node.dist = temp
                     forward_node.prev = u
 
-        if u.x == width - 1 and u.y == height - 1 and len([node for node in queue if node.x == width - 1 and node.y == height - 1]) == 6:
-            v = min(*final_nodes)
-            return v.dist
+        if u.x == width - 1 and u.y == height - 1:
+            return u.dist
+
 
 print(main())
-
-
