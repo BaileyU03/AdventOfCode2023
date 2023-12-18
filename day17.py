@@ -1,3 +1,6 @@
+import time
+
+
 class Node:
     def __init__(self, n, x, y, dir):
         self.value = int(n)
@@ -15,7 +18,8 @@ class Node:
         return self.dist < other.dist
 
 
-def main():
+def main(is_part2):
+    now = time.time()
     queue = []
     with open("./files/day17.txt", "r") as f:
         for y, line in enumerate(f):
@@ -25,7 +29,8 @@ def main():
                 if n == "\n":
                     continue
                 for direction in ["n", "e", "s", "w"]:
-                    for multiplier in range(1, 4):
+                    upper = 11 if is_part2 else 4
+                    for multiplier in range(1, upper):
                         node = Node(n, x, y, direction * multiplier)
                         if y == 0 and x == 0 and direction * multiplier == "e":
                             node.dist = 0
@@ -61,7 +66,7 @@ def main():
             right = "w"
         forward = u.dir + u.dir[0]
 
-        if 0 <= left_x < width and 0 <= left_y < height:
+        if 0 <= left_x < width and 0 <= left_y < height and (4 <= len(u.dir) <= 10 or not is_part2):
             left_node = [node for node in queue if node.x == left_x and node.y == left_y and node.dir == left]
             if left_node:
                 left_node = left_node[0]
@@ -69,7 +74,7 @@ def main():
                 if left_node.dist == -1 or temp < left_node.dist:
                     left_node.dist = temp
                     left_node.prev = u
-        if 0 <= right_x < width and 0 <= right_y < height:
+        if 0 <= right_x < width and 0 <= right_y < height and (4 <= len(u.dir) <= 10 or not is_part2):
             right_node = [node for node in queue if node.x == right_x and node.y == right_y and node.dir == right]
             if right_node:
                 right_node = right_node[0]
@@ -77,7 +82,7 @@ def main():
                 if right_node.dist == -1 or temp < right_node.dist:
                     right_node.dist = temp
                     right_node.prev = u
-        if 0 <= forward_x < width and 0 <= forward_y < height:
+        if 0 <= forward_x < width and 0 <= forward_y < height and (len(u.dir) <= 10 or not is_part2):
             forward_node = [node for node in queue if node.x == forward_x and node.y == forward_y and node.dir == forward]
             if forward_node:
                 forward_node = forward_node[0]
@@ -86,8 +91,9 @@ def main():
                     forward_node.dist = temp
                     forward_node.prev = u
 
-        if u.x == width - 1 and u.y == height - 1:
+        if u.x == width - 1 and u.y == height - 1 and (len(u.dir) >= 4 or not is_part2):
+            print(time.time() - now)
             return u.dist
 
 
-print(main())
+print(main(True))
