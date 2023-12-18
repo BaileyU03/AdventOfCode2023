@@ -19,7 +19,6 @@ class Node:
 
 
 def main(is_part2):
-    now = time.time()
     queue = []
     with open("./files/day17.txt", "r") as f:
         for y, line in enumerate(f):
@@ -92,7 +91,6 @@ def main(is_part2):
                     forward_node.prev = u
 
         if u.x == width - 1 and u.y == height - 1 and (len(u.dir) >= 4 or not is_part2):
-            print(time.time() - now)
             return u.dist
 
 
