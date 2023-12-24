@@ -10,14 +10,14 @@ def main():
     for i, h0 in enumerate(hailstones[:-1]):
         h0point0 = (h0["pos"][0], h0["pos"][1])
         h0point1 = (h0["pos"][0] + h0["vel"][0], h0["pos"][1] + h0["vel"][1])
-        a0 = h0point0[1] - h0point1[1]
-        b0 = h0point1[0] - h0point0[0]
+        a0 = - h0["vel"][1]
+        b0 = h0["vel"][0]
         c0 = -(h0point0[0] * h0point1[1] - h0point1[0] * h0point0[1])
         for j, h1 in enumerate(hailstones[i + 1:]):
             h1point0 = (h1["pos"][0], h1["pos"][1])
             h1point1 = (h1["pos"][0] + h1["vel"][0], h1["pos"][1] + h1["vel"][1])
-            a1 = h1point0[1] - h1point1[1]
-            b1 = h1point1[0] - h1point0[0]
+            a1 = - h1["vel"][1]
+            b1 = h1["vel"][0]
             c1 = -(h1point0[0] * h1point1[1] - h1point1[0] * h1point0[1])
 
             if intersection([a0,b0,c0], [a1,b1,c1]):
